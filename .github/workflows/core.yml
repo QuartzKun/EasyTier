@@ -45,7 +45,7 @@ jobs:
       NAME: easytier
       TARGET: ${{ matrix.TARGET }}
       OS: ${{ matrix.OS }}
-      OSS_BUCKET: ${{ secrets.ALIYUN_OSS_BUCKET }}
+      # OSS_BUCKET: ${{ secrets.ALIYUN_OSS_BUCKET }}
     needs: pre_job
     if: needs.pre_job.outputs.should_skip != 'true'
     steps:
@@ -167,18 +167,18 @@ jobs:
           path: |
             ./artifacts/*
 
-      - name: Upload OSS
-        if: ${{ env.OSS_BUCKET != '' }}
-        uses: Menci/upload-to-oss@main
-        with:
-          access-key-id: ${{ secrets.ALIYUN_OSS_ACCESS_ID }}
-          access-key-secret: ${{ secrets.ALIYUN_OSS_ACCESS_KEY }}
-          endpoint: ${{ secrets.ALIYUN_OSS_ENDPOINT }}
-          bucket: ${{ secrets.ALIYUN_OSS_BUCKET }}
-          local-path: ./artifacts/
-          remote-path: /easytier-releases/${{env.GIT_DESC}}/easytier-${{ matrix.ARTIFACT_NAME }}
-          no-delete-remote-files: true
-          retry: 5
+      # - name: Upload OSS
+      #   if: ${{ env.OSS_BUCKET != '' }}
+      #   uses: Menci/upload-to-oss@main
+      #   with:
+      #     access-key-id: ${{ secrets.ALIYUN_OSS_ACCESS_ID }}
+      #     access-key-secret: ${{ secrets.ALIYUN_OSS_ACCESS_KEY }}
+      #     endpoint: ${{ secrets.ALIYUN_OSS_ENDPOINT }}
+      #     bucket: ${{ secrets.ALIYUN_OSS_BUCKET }}
+      #     local-path: ./artifacts/
+      #     remote-path: /easytier-releases/${{env.GIT_DESC}}/easytier-${{ matrix.ARTIFACT_NAME }}
+      #     no-delete-remote-files: true
+      #     retry: 5
   core-result:
     if: needs.pre_job.outputs.should_skip != 'true' && always()
     runs-on: ubuntu-latest
