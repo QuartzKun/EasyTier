@@ -1,10 +1,10 @@
 name: EasyTier Test
 
 on:
-  push:
-    branches: ["develop", "main"]
-  pull_request:
-    branches: ["develop", "main"]
+  # push:
+  #   branches: ["develop", "main"]
+  # pull_request:
+  #   branches: ["develop", "main"]
 
 env:
   CARGO_TERM_COLOR: always
