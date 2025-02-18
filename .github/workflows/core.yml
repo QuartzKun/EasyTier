@@ -81,7 +81,7 @@ jobs:
             cargo +nightly build -r --verbose --target $TARGET -Z build-std=std,panic_abort --no-default-features --features mips --package=easytier
           else
             # cargo build --release --verbose --target $TARGET
-            cargo build --release --verbose -Z build-std --target x86_64-win7-windows-msvc
+            cargo +nightly build --release --verbose -Z build-std --target x86_64-win7-windows-msvc
           fi
 
       # Copied and slightly modified from @lmq8267 (https://github.com/lmq8267)
