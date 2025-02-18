@@ -47,29 +47,8 @@ fi
 rustup set auto-self-update disable
 rustup install 1.84
 rustup default 1.84
+rustup toolchain install nightly
+rustup default nightly
+rustup component add rust-src --toolchain nightly-x86_64-pc-windows-msvc
 
-# mips/mipsel cannot add target from rustup, need compile by ourselves
-if [[ $OS =~ ^ubuntu.*$ && $TARGET =~ ^mips.*$ ]]; then
-    cd "$PWD/musl_gcc/${MUSL_URI}-cross/lib/gcc/${MUSL_URI}/11.2.1" || exit 255
-    # for panic-abort
-    cp libgcc_eh.a libunwind.a
-
-    # for mimalloc
-    ar x libgcc.a _ctzsi2.o _clz.o _bswapsi2.o
-    ar rcs libctz.a _ctzsi2.o _clz.o _bswapsi2.o
-
-    rustup toolchain install nightly-x86_64-unknown-linux-gnu
-    rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
-
-    # https://github.com/rust-lang/rust/issues/128808
-    # remove it after Cargo or rustc fix this.
-    RUST_LIB_SRC=$HOME/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/
-    if [[ -f $RUST_LIB_SRC/library/Cargo.lock && ! -f $RUST_LIB_SRC/Cargo.lock ]]; then 
-        cp -f $RUST_LIB_SRC/library/Cargo.lock $RUST_LIB_SRC/Cargo.lock
-    fi
-else
-    rustup target add $TARGET
-    if [[ $GUI_TARGET != '' ]]; then
-        rustup target add $GUI_TARGET
-    fi
-fi
+rustup target add x86_64-win7-windows-msvc
